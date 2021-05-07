@@ -77,9 +77,9 @@ module soc_system (
 		output wire [3:0]  memory_mem_dm,                         //                            .mem_dm
 		input  wire        memory_oct_rzqin,                      //                            .oct_rzqin
 		output wire [63:0] pulse_counter_conduit_inout_wirtedata, // pulse_counter_conduit_inout.wirtedata
-		output wire        pulse_counter_conduit_inout_write,     //                            .write
+		output wire        pulse_counter_conduit_inout_writerdy,  //                            .writerdy
 		input  wire        pulse_counter_conduit_inout_photon,    //                            .photon
-		input  wire        pulse_counter_conduit_inout_tri_in,    //                            .tri_in
+		input  wire        pulse_counter_conduit_inout_triinsyn,  //                            .triinsyn
 		input  wire        reset_reset_n,                         //                       reset.reset_n
 		output wire        trigger_conduit_trigger_trigger,       //     trigger_conduit_trigger.trigger
 		output wire        trigger_sim_conduit_trigger_trigger    // trigger_sim_conduit_trigger.trigger
@@ -258,13 +258,13 @@ module soc_system (
 
 	PlsCnt pulse_counter (
 		.CLK        (clk_clk),                                                  //          clock.clk
-		.write      (mm_interconnect_0_pulse_counter_avalon_slave_0_write),     // avalon_slave_0.write
-		.Tao_Q      (mm_interconnect_0_pulse_counter_avalon_slave_0_writedata), //               .writedata
+		.Tao_Q      (mm_interconnect_0_pulse_counter_avalon_slave_0_writedata), // avalon_slave_0.writedata
+		.write      (mm_interconnect_0_pulse_counter_avalon_slave_0_write),     //               .write
 		.RESET      (rst_controller_reset_out_reset),                           //          reset.reset
 		.Cnt_Stream (pulse_counter_conduit_inout_wirtedata),                    //  conduit_inout.wirtedata
-		.RDY        (pulse_counter_conduit_inout_write),                        //               .write
+		.RDY        (pulse_counter_conduit_inout_writerdy),                     //               .writerdy
 		.PHO        (pulse_counter_conduit_inout_photon),                       //               .photon
-		.TRI        (pulse_counter_conduit_inout_tri_in)                        //               .tri_in
+		.TRIIN      (pulse_counter_conduit_inout_triinsyn)                      //               .triinsyn
 	);
 
 	TRI_gen trigger (

@@ -1,5 +1,5 @@
 Assembler report for soc_system
-Thu May  6 20:24:59 2021
+Fri May  7 21:52:10 2021
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -39,7 +39,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu May  6 20:24:59 2021 ;
+; Assembler Status      ; Successful - Fri May  7 21:52:10 2021 ;
 ; Revision Name         ; soc_system                            ;
 ; Top-level Entity Name ; ghrd                                  ;
 ; Family                ; Cyclone V                             ;
@@ -64,13 +64,13 @@ https://fpgasoftware.intel.com/eula.
 +--------+------------------------+--------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Assembler Generated Files                                                                                                                                    ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; File Name                                                                                                                                                    ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system.sof ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------+
+; Assembler Generated Files                                                                            ;
++------------------------------------------------------------------------------------------------------+
+; File Name                                                                                            ;
++------------------------------------------------------------------------------------------------------+
+; /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system.sof ;
++------------------------------------------------------------------------------------------------------+
 
 
 +------------------------------------------+
@@ -78,8 +78,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------+-------------------------+
 ; Option         ; Setting                 ;
 +----------------+-------------------------+
-; JTAG usercode  ; 0x024C7316              ;
-; Checksum       ; 0x024C7316              ;
+; JTAG usercode  ; 0x037268DE              ;
+; Checksum       ; 0x037268DE              ;
 +----------------+-------------------------+
 
 
@@ -89,15 +89,15 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Thu May  6 20:24:40 2021
+    Info: Processing started: Fri May  7 21:51:53 2021
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off soc_system -c soc_system
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
 Info (11878): Hard Processor Subsystem configuration has not changed and a Preloader software update is not required
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 624 megabytes
-    Info: Processing ended: Thu May  6 20:25:00 2021
-    Info: Elapsed time: 00:00:20
-    Info: Total CPU time (on all processors): 00:00:13
+    Info: Peak virtual memory: 623 megabytes
+    Info: Processing ended: Fri May  7 21:52:10 2021
+    Info: Elapsed time: 00:00:17
+    Info: Total CPU time (on all processors): 00:00:14
 
 

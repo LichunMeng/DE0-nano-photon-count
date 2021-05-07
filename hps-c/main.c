@@ -6,7 +6,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#define MAX 1024 
+#define MAX 1024*8 
 #define PORT 8888
 #define SA struct sockaddr
 //for hps control and communication  
@@ -27,12 +27,6 @@
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
 int hps_control(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_counter_addr,unsigned long *h2p_lw_FIFO_csr_addr,unsigned long *h2p_lw_tri_sim_addr,unsigned long *h2p_lw_tri_addr) {
-
-	//void *h2p_lw_fifo_addr;// pointer for fifo output
-	//void *h2p_lw_counter_addr; //pointer for pulse counter control 
-	//void *h2p_lw_FIFO_csr_addr;//pointer for FIFO control
-	//void *h2p_lw_tri_sim_addr; //pointer for sim trigger control
-	//void *h2p_lw_tri_addr; //pointer for trigger control
 
 	void *virtual_base;// memory base 
 	void *virtual_base_axi;// memory base 
@@ -60,16 +54,16 @@ int hps_control(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_counter_addr,u
 	*h2p_lw_counter_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + PULSE_COUNTER_BASE) & ( unsigned long)( HW_REGS_MASK ) );
 	*h2p_fifo_addr=virtual_base_axi+  (FIFO_PLS_OUT_BASE);
 	
-	//*h2p_lw_FIFO_csr_addr=virtual_base_axi +  FIFO_PLS_OUT_CSR_BASE;
 	*h2p_lw_FIFO_csr_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + FIFO_PLS_OUT_CSR_BASE) & ( unsigned long)( HW_REGS_MASK ) );
 
 	*h2p_lw_tri_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + TRIGGER_BASE) & ( unsigned long)( HW_REGS_MASK ) );
 	
 	*h2p_lw_tri_sim_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + TRIGGER_SIM_BASE) & ( unsigned long)( HW_REGS_MASK ) );
-	//printf("%08x\r\n",*h2p_lw_fifo_addr);
 
 	return (fd);
 }	
+
+
 int setting(uint32_t Intg,uint32_t Tri_intg, uint32_t sim_intg,unsigned long *h2p_lw_counter_addr,unsigned long *h2p_lw_tri_sim_addr,unsigned long *h2p_lw_tri_addr){
 	*((uint32_t *)*h2p_lw_counter_addr) = Intg; 
 	*((uint32_t *)*h2p_lw_tri_sim_addr) = sim_intg; 
@@ -80,13 +74,13 @@ int setting(uint32_t Intg,uint32_t Tri_intg, uint32_t sim_intg,unsigned long *h2
 int hps_data_get(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_FIFO_csr_addr,uint64_t data[]) {
 
 	int i,t,count;
+	uint32_t status;
 	for (i=0;i<MAX;i++){
-		if (((*((uint32_t *)(*h2p_lw_FIFO_csr_addr+1)))&0x2)==0) 
+		status=(*((uint32_t *)(*h2p_lw_FIFO_csr_addr+4)))&0x3F;
+
+		if (((status)&0x2)==0) 
 		{	
 			data[i]=*((uint64_t *)*h2p_fifo_addr) ;
-			t=data[i]&0xffffffff;
-			count=(data[i]&0xffffffff00000000)>>32;
-	            	printf("count=%d,t=%d\r\n",count,t);
 		}   
 		else
 			i--;
@@ -98,26 +92,73 @@ int hps_data_get(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_FIFO_csr_addr
 int main()
 {
 	int fd;
+    	char buff[12];
 	unsigned long h2p_lw_fifo_addr,h2p_lw_counter_addr,h2p_lw_FIFO_csr_addr,h2p_lw_tri_sim_addr,h2p_lw_tri_addr;
 	unsigned int h2p_fifo_addr;
 	fd=hps_control(&h2p_fifo_addr,&h2p_lw_counter_addr,&h2p_lw_FIFO_csr_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
 	uint32_t Intg=5000;
-	uint32_t Tri_intg=400000; 
-	uint32_t sim_intg=50;
+	uint32_t Tri_intg=10000000; 
+	uint32_t sim_intg=100;
 	uint64_t data[MAX];
-       	setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
-        //hps_data(Intg,Tri_intg, sim_intg,&h2p_lw_fifo_addr,&h2p_lw_counter_addr,&h2p_lw_FIFO_csr_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr, data);
-    	uint32_t n=0,i=0,count=0,t=0;
-    	for (;;) {
-            hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
-	    //for (i=0;i<MAX;i++){
-	    //    	t=data[i]&0xffffffff;
-	    //    	count=(data[i]&0xffffffff00000000)>>32;
-	    //        if ((data[i]&0x0000000080000000)==1){
-	    //        	printf("count=%d,t=%d\r\n",count,t);
-	    //        }
-	    //        printf("t=%08d,count=%d\r\n",t,count);
-    	    //}
-	}
+    	//uint32_t n=0,i=0,count=0,t=0;
+    	int sockfd, connfd, len;
+    	struct sockaddr_in servaddr, cli;
+  
+    	// socket create and verification
+	printf("test1");
+    	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    	if (sockfd == -1) {
+    	    printf("socket creation failed...\n");
+    	    exit(0);
+    	}
+    	else
+    	    printf("Socket successfully created..\n");
+    	bzero(&servaddr, sizeof(servaddr));
+	//setsockopt( sockfd, SOL_SOCKET,SO_RCVTIMEO,(void *)&timeout, sizeof(timeout));
+	//setsockopt( sockfd, 6 ,18,(void *)&timeout, sizeof(timeout));
+  
+    	// assign IP, PORT
+    	servaddr.sin_family = AF_INET;
+    	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    	servaddr.sin_port = htons(PORT);
+  
+    	// Binding newly created socket to given IP and verification
+    	if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+    	    printf("socket bind failed...\n");
+    	    exit(0);
+    	}
+    	else
+    	    printf("Socket successfully binded..\n");
+  
+    	// Now server is ready to listen and verification
+    	if ((listen(sockfd, 5)) != 0) {
+    	    printf("Listen failed...\n");
+    	    exit(0);
+    	}
+    	else
+    	    printf("Server listening..\n");
+    	len = sizeof(cli);
+  
+    	// Accept the data packet from client and verification
+	while ((connfd = accept(sockfd, (SA*)&cli, &len))>0){
+    		for (;;) {
+    		    bzero(buff, 12);
+    		    read(connfd, buff, sizeof(buff));
+
+		    Intg=buff[0]|buff[1]<<8|buff[2]<<16|buff[3]<<24;
+		    Tri_intg=buff[4]|buff[5]<<8|buff[6]<<16|buff[7]<<24;
+		    sim_intg=buff[8]|buff[9]<<8|buff[10]<<16|buff[11]<<24;
+		    if (Intg!=0){
+		    printf("Int=%d, Tri=%d,Pho=%d\r\n",Intg,Tri_intg,sim_intg);
+       		    setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
+		    }
+		    hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
+
+    		    send(connfd, data, sizeof(data),0);
+		    printf("size:%d\r\n",sizeof(data));
+    		    }
+    		close(connfd);
+		}
 	close(fd);
+	return (0);
 }

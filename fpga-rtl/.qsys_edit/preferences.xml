@@ -7,10 +7,10 @@
    <irq preferredWidth="63" />
    <description preferredWidth="314" />
    <name preferredWidth="232" />
-   <export preferredWidth="193" />
+   <export preferredWidth="260" />
   </columns>
  </systemtable>
- <library expandedCategories="Library,Project" />
+ <library expandedCategories="Project,Library" />
  <window width="1208" height="693" x="72" y="27" />
  <hdlexample language="VERILOG" />
 </preferences>

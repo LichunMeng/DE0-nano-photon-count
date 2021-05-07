@@ -1,5 +1,5 @@
-module PlsCnt(CLK, RESET, TRI, PHO, write,Tao_Q, Cnt_Stream,RDY);
-input CLK,RESET, write,TRI,PHO;//clock, trigger for starting, photon count(signal from SPC)
+module PlsCnt(CLK, RESET, TRIIN, PHO, write,Tao_Q, Cnt_Stream,RDY);
+input CLK,RESET, write,TRIIN,PHO;//clock, trigger for starting, photon count(signal from SPC)
 input [31:0] Tao_Q; //how many clock generate one data
 output reg [63:0] Cnt_Stream=0;//data for fifo
 output reg RDY=1'b0;
@@ -7,10 +7,10 @@ reg [31:0] Tao;
 reg [31:0] PHO_cnt=0;
 reg [1:0]tri_1=2'b0;
 always @(posedge CLK)
-	if (TRI==1'b1 && tri_1==2'b0)begin
+	if (TRIIN==1'b1 && tri_1==2'b0)begin
 		tri_1<=tri_1+1;	
 		end
-	else if	(TRI==1'b1 && tri_1!=2'b0)begin
+	else if	(TRIIN==1'b1 && tri_1!=2'b0)begin
 		tri_1<=tri_1+1;
 		end
 	else begin

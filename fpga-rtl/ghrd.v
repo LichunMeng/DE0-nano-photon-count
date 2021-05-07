@@ -183,9 +183,9 @@ end // always @(posedge state_clock)
      // .pio_led_external_connection_export(LED),
 	  //
 	  .pulse_counter_conduit_inout_wirtedata (counter_data),
-	  .pulse_counter_conduit_inout_write(counter_ready),
+	  .pulse_counter_conduit_inout_writerdy(counter_ready),
 	  .pulse_counter_conduit_inout_photon(GPIO_0[0]),  //input, connect to SPC
-	  .pulse_counter_conduit_inout_tri_in(GPIO_0[1]),  //input, connect to triggering
+	  .pulse_counter_conduit_inout_triinsyn(GPIO_0[1]),  //input, connect to triggering
 		
 	  .fifo_pls_in_writedata                (data_buffer),
 	  .fifo_pls_in_write                (data_buffer_valid),

@@ -1,5 +1,5 @@
 Info: Starting: Create block symbol file (.bsf)
-Info: qsys-generate /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system.qsys --block-symbol-file --output-directory=/home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system --family="Cyclone V" --part=5CSEMA4U23C6
+Info: qsys-generate "/home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system.qsys" --block-symbol-file --output-directory="/home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system" --family="Cyclone V" --part=5CSEMA4U23C6
 Progress: Loading fpga-rtl/soc_system.qsys
 Progress: Reading input file
 Progress: Adding Pulse_counter [Pulse_counter 1.0]
@@ -30,7 +30,6 @@ Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
-Warning: soc_system.Pulse_counter: Port tri conflicts with a VHDL, verilog or system verilog reserved word
 Warning: soc_system.fifo_pls: The Nios II HAL drivers for the Altera Avalon FIFO support only 32-bit data width.         If you connect this FIFO to a Nios II CPU, you will need to access the registers directly.
 Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 73
 Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
@@ -43,7 +42,7 @@ Info: qsys-generate succeeded.
 Info: Finished: Create block symbol file (.bsf)
 Info: 
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system.qsys --synthesis=VERILOG --output-directory=/home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis --family="Cyclone V" --part=5CSEMA4U23C6
+Info: qsys-generate "/home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system.qsys" --synthesis=VERILOG --output-directory="/home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis" --family="Cyclone V" --part=5CSEMA4U23C6
 Progress: Loading fpga-rtl/soc_system.qsys
 Progress: Reading input file
 Progress: Adding Pulse_counter [Pulse_counter 1.0]
@@ -74,7 +73,6 @@ Progress: Building connections
 Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
-Warning: soc_system.Pulse_counter: Port tri conflicts with a VHDL, verilog or system verilog reserved word
 Warning: soc_system.fifo_pls: The Nios II HAL drivers for the Altera Avalon FIFO support only 32-bit data width.         If you connect this FIFO to a Nios II CPU, you will need to access the registers directly.
 Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 73
 Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
@@ -92,7 +90,7 @@ Warning: hps_0.f2h_irq1: Cannot connect reset for irq_mapper_001.sender
 Info: Pulse_counter: "soc_system" instantiated Pulse_counter "Pulse_counter"
 Info: Trigger: "soc_system" instantiated trigger_gen "Trigger"
 Info: fifo_pls: Starting RTL generation for module 'soc_system_fifo_pls'
-Info: fifo_pls:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_fifo -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_fifo/generate_rtl.pl --name=soc_system_fifo_pls --dir=/tmp/alt8753_5661860730930183912.dir/0004_fifo_pls_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8753_5661860730930183912.dir/0004_fifo_pls_gen//soc_system_fifo_pls_component_configuration.pl  --do_build_sim=0  ]
+Info: fifo_pls:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_fifo -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_fifo/generate_rtl.pl --name=soc_system_fifo_pls --dir=/tmp/alt8754_8643102760115455846.dir/0004_fifo_pls_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8754_8643102760115455846.dir/0004_fifo_pls_gen//soc_system_fifo_pls_component_configuration.pl  --do_build_sim=0  ]
 Info: fifo_pls: Done RTL generation for module 'soc_system_fifo_pls'
 Info: fifo_pls: "soc_system" instantiated altera_avalon_fifo "fifo_pls"
 Info: fpga_only_master: "soc_system" instantiated altera_jtag_avalon_master "fpga_only_master"
@@ -104,11 +102,11 @@ Warning: hps_0: 1 or more output clock frequencies cannot be achieved precisely,
 Info: hps_0: "soc_system" instantiated altera_hps "hps_0"
 Info: intr_capturer_0: "soc_system" instantiated intr_capturer "intr_capturer_0"
 Info: jtag_uart: Starting RTL generation for module 'soc_system_jtag_uart'
-Info: jtag_uart:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=soc_system_jtag_uart --dir=/tmp/alt8753_5661860730930183912.dir/0006_jtag_uart_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8753_5661860730930183912.dir/0006_jtag_uart_gen//soc_system_jtag_uart_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=soc_system_jtag_uart --dir=/tmp/alt8754_8643102760115455846.dir/0006_jtag_uart_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8754_8643102760115455846.dir/0006_jtag_uart_gen//soc_system_jtag_uart_component_configuration.pl  --do_build_sim=0  ]
 Info: jtag_uart: Done RTL generation for module 'soc_system_jtag_uart'
 Info: jtag_uart: "soc_system" instantiated altera_avalon_jtag_uart "jtag_uart"
 Info: onchip_memory2_0: Starting RTL generation for module 'soc_system_onchip_memory2_0'
-Info: onchip_memory2_0:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=/tmp/alt8753_5661860730930183912.dir/0007_onchip_memory2_0_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8753_5661860730930183912.dir/0007_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
+Info: onchip_memory2_0:   Generation command is [exec /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/bin/perl -I /home/lm/intelFPGA_lite/20.1/quartus/linux64/perl/lib -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin/europa -I /home/lm/intelFPGA_lite/20.1/quartus/sopc_builder/bin -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- /home/lm/intelFPGA_lite/20.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=/tmp/alt8754_8643102760115455846.dir/0007_onchip_memory2_0_gen/ --quartus_dir=/home/lm/intelFPGA_lite/20.1/quartus --verilog --config=/tmp/alt8754_8643102760115455846.dir/0007_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
 Info: onchip_memory2_0: Done RTL generation for module 'soc_system_onchip_memory2_0'
 Info: onchip_memory2_0: "soc_system" instantiated altera_avalon_onchip_memory2 "onchip_memory2_0"
 Info: sysid_qsys: "soc_system" instantiated altera_avalon_sysid_qsys "sysid_qsys"
@@ -151,52 +149,52 @@ Info: router_007: "mm_interconnect_0" instantiated altera_merlin_router "router_
 Info: router_008: "mm_interconnect_0" instantiated altera_merlin_router "router_008"
 Info: router_010: "mm_interconnect_0" instantiated altera_merlin_router "router_010"
 Info: hps_0_h2f_axi_master_wr_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "hps_0_h2f_axi_master_wr_limiter"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: fifo_pls_out_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "fifo_pls_out_burst_adapter"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_002"
 Info: cmd_demux_003: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_003"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
 Info: cmd_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_001"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: cmd_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_002"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: cmd_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_003"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: cmd_mux_005: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_005"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
 Info: rsp_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_002"
 Info: rsp_demux_003: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_003"
 Info: rsp_demux_005: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_005"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_002"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_003"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: fpga_only_master_master_to_onchip_memory2_0_s1_cmd_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "fpga_only_master_master_to_onchip_memory2_0_s1_cmd_width_adapter"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: avalon_st_adapter_002: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_002"
 Info: hps_0_f2h_axi_slave_agent: "mm_interconnect_1" instantiated altera_merlin_axi_slave_ni "hps_0_f2h_axi_slave_agent"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
 Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
 Info: router_001: "mm_interconnect_1" instantiated altera_merlin_router "router_001"
 Info: cmd_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/lm/Documents/FPGA-HPS/CD/DE0-Nano-SoC_v.1.1.0_HWrevB0_revC0_SystemCD/Demonstrations/SoC_FPGA/Pulse_cnt_FIFO_done_conduit2slave/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/lm/Documents/Code/git_code/DE0-nano Photon count/DE0-nano-photon-count/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
 Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"

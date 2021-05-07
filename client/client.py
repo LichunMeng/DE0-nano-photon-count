@@ -5,7 +5,7 @@ import socket
 import struct
 HOST = '192.168.1.2'  # The server's hostname or IP address
 PORT = 8888        # The port used by the server
-N=1024;
+N=1024*8;
 
 fmt='I'*N*2
 fmt_tran='I'*3
@@ -18,33 +18,27 @@ plt.ion()
 figure, ax=plt.subplots(figsize=(100,8))
 x=np.zeros(N)
 y=np.zeros(N)
-line1, =ax.plot(x,y,'r.')
+line1, =ax.plot(x,y,'r.',markersize=0.1)
 tmp=0
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     #s.sendall(b'Hello, world')
-    for i in range(5):
-        tran_raw=struct.pack(fmt_tran,Int,Int_tri,Int_tri_sim)
-        #s.sendall(tran_raw)
+    for i in range(100):
+        tran_raw=struct.pack(fmt_tran,Int,Int_tri,Int_tri_sim+i*10)
+        s.sendall(tran_raw)
         data_raw = s.recv(N*8)
-        data=struct.unpack(fmt,data_raw)
-        for i in range(N):
-            #x[i]=data[2*i]
-            #y[i]=data[2*i+1]
-            u=np.uint32(data[2*i+1])
-            if (u>>31)==1:
-                ss=i-tmp
-                if ss<0:
-                    print(ss+N)
-                else:
-                    print(ss)
-                tmp=i
+        N=int(len(data_raw)/4)
+        data=struct.unpack('I'*N,data_raw)
+        for i in range(int(N/2)):
+            x[i]=data[2*i]
+            y[i]=data[2*i+1]
         #print(y[1])
-            #line1.set_xdata(x)
-            #line1.set_ydata(y)
-            #ax.set_xlim((np.min(x),np.max(x)))
-            #ax.set_ylim(0,200)
-            #figure.canvas.draw()
-            #figure.canvas.flush_events()
+        line1.set_xdata(x)
+        line1.set_ydata(y)
+        ax.set_xlim((0,Int_tri))
+        ax.set_ylim(0,200)
+        figure.canvas.draw()
+        figure.canvas.flush_events()
+        data=[]
     s.close()
 

@@ -167,8 +167,8 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 0 1168)
 		(input)
-		(text "pulse_counter_conduit_inout_tri_in" (rect 0 0 136 12)(font "Arial" (font_size 8)))
-		(text "pulse_counter_conduit_inout_tri_in" (rect 4 1157 208 1168)(font "Arial" (font_size 8)))
+		(text "pulse_counter_conduit_inout_triinsyn" (rect 0 0 146 12)(font "Arial" (font_size 8)))
+		(text "pulse_counter_conduit_inout_triinsyn" (rect 4 1157 220 1168)(font "Arial" (font_size 8)))
 		(line (pt 0 1168)(pt 272 1168)(line_width 1))
 	)
 	(port
@@ -370,8 +370,8 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 0 1136)
 		(output)
-		(text "pulse_counter_conduit_inout_write" (rect 0 0 135 12)(font "Arial" (font_size 8)))
-		(text "pulse_counter_conduit_inout_write" (rect 4 1125 202 1136)(font "Arial" (font_size 8)))
+		(text "pulse_counter_conduit_inout_writerdy" (rect 0 0 149 12)(font "Arial" (font_size 8)))
+		(text "pulse_counter_conduit_inout_writerdy" (rect 4 1125 220 1136)(font "Arial" (font_size 8)))
 		(line (pt 0 1136)(pt 272 1136)(line_width 1))
 	)
 	(port
@@ -661,9 +661,9 @@ https://fpgasoftware.intel.com/eula.
 		(text "oct_rzqin" (rect 438 347 930 704)(font "Arial" (color 0 0 0)))
 		(text "pulse_counter_conduit_inout" (rect 106 1091 374 2195)(font "Arial" (color 128 0 0)(font_size 9)))
 		(text "wirtedata" (rect 277 1115 608 2240)(font "Arial" (color 0 0 0)))
-		(text "write" (rect 277 1131 584 2272)(font "Arial" (color 0 0 0)))
+		(text "writerdy" (rect 277 1131 602 2272)(font "Arial" (color 0 0 0)))
 		(text "photon" (rect 277 1147 590 2304)(font "Arial" (color 0 0 0)))
-		(text "tri_in" (rect 277 1163 590 2336)(font "Arial" (color 0 0 0)))
+		(text "triinsyn" (rect 277 1163 602 2336)(font "Arial" (color 0 0 0)))
 		(text "reset" (rect 243 1179 516 2371)(font "Arial" (color 128 0 0)(font_size 9)))
 		(text "reset_n" (rect 277 1203 596 2416)(font "Arial" (color 0 0 0)))
 		(text "trigger_conduit_trigger" (rect 140 1219 418 2451)(font "Arial" (color 128 0 0)(font_size 9)))

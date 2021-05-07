@@ -73,9 +73,9 @@
 			memory_mem_dm                         : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                      : in    std_logic                     := 'X';             -- oct_rzqin
 			pulse_counter_conduit_inout_wirtedata : out   std_logic_vector(63 downto 0);                    -- wirtedata
-			pulse_counter_conduit_inout_write     : out   std_logic;                                        -- write
+			pulse_counter_conduit_inout_writerdy  : out   std_logic;                                        -- writerdy
 			pulse_counter_conduit_inout_photon    : in    std_logic                     := 'X';             -- photon
-			pulse_counter_conduit_inout_tri_in    : in    std_logic                     := 'X';             -- tri_in
+			pulse_counter_conduit_inout_triinsyn  : in    std_logic                     := 'X';             -- triinsyn
 			reset_reset_n                         : in    std_logic                     := 'X';             -- reset_n
 			trigger_conduit_trigger_trigger       : out   std_logic;                                        -- trigger
 			trigger_sim_conduit_trigger_trigger   : out   std_logic                                         -- trigger
