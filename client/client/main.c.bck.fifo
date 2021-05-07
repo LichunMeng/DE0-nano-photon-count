@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include "hwlib.h"
+#include "socal/socal.h"
+#include "socal/hps.h"
+#include "socal/alt_gpio.h"
+#include "hps_0.h"
+#include "alt_types.h"
+/***********************************************************************/
+#include "altera_avalon_fifo_regs.h"
+#include "altera_avalon_fifo_util.h"
+#include "system.h"
+#include "sys/alt_irq.h"
+#include <stdio.h>
+#include <stdlib.h>
+#define ALMOST_EMPTY 2
+#define ALMOST_FULL OUTPUT_FIFO_OUT_FIFO_DEPTH-5
+volatile int input_fifo_wrclk_irq_event;
+void print_status(alt_u32 control_base_address)
+{
+printf("--------------------------------------\n");
+printf("LEVEL = %u\n", altera_avalon_fifo_read_level(control_base_address) );
+printf("STATUS = %u\n", altera_avalon_fifo_read_status(control_base_address,
+ALTERA_AVALON_FIFO_STATUS_ALL) );
+printf("EVENT = %u\n", altera_avalon_fifo_read_event(control_base_address,
+ALTERA_AVALON_FIFO_EVENT_ALL) );
+printf("IENABLE = %u\n", altera_avalon_fifo_read_ienable(control_base_address,
+ALTERA_AVALON_FIFO_IENABLE_ALL) );
+printf("ALMOSTEMPTY = %u\n",
+altera_avalon_fifo_read_almostempty(control_base_address) );
+printf("ALMOSTFULL = %u\n\n",
+altera_avalon_fifo_read_almostfull(control_base_address));
+}
+static void handle_input_fifo_wrclk_interrupts(void* context, alt_u32 id)
+{
+/* Cast context to input_fifo_wrclk_irq_event's type. It is important
+* to declare this volatile to avoid unwanted compiler optimization.
+*/
+volatile int* input_fifo_wrclk_irq_event_ptr = (volatile int*) context;
+/* Store the value in the FIFO's irq history register in *context. */
+*input_fifo_wrclk_irq_event_ptr =
+altera_avalon_fifo_read_event(INPUT_FIFO_IN_CSR_BASE, ALTERA_AVALON_FIFO_EVENT_ALL);
+printf("Interrupt Occurs for %#x\n", INPUT_FIFO_IN_CSR_BASE);
+print_status(INPUT_FIFO_IN_CSR_BASE);
+/* Reset the FIFO's IRQ History register. */
+altera_avalon_fifo_clear_event(INPUT_FIFO_IN_CSR_BASE,
+ALTERA_AVALON_FIFO_EVENT_ALL);
+}
+/* Initialize the fifo */
+static int init_input_fifo_wrclk_control()
+{
+int return_code = ALTERA_AVALON_FIFO_OK;
+/* Recast the IRQ History pointer to match the alt_irq_register() function
+* prototype. */
+void* input_fifo_wrclk_irq_event_ptr = (void*) &input_fifo_wrclk_irq_event;
+/* Enable all interrupts. */
+/* Clear event register, set enable all irq, set almostempty and
+almostfull threshold */
+return_code = altera_avalon_fifo_init(INPUT_FIFO_IN_CSR_BASE,
+0, // Disabled interrupts
+ALMOST_EMPTY,
+ALMOST_FULL);
+/* Register the interrupt handler. */
+alt_irq_register( INPUT_FIFO_IN_CSR_IRQ,
+input_fifo_wrclk_irq_event_ptr, handle_input_fifo_wrclk_interrupts );
+return return_code;
+}
+#define HW_REGS_BASE ( ALT_STM_OFST )
+#define HW_REGS_SPAN ( 0x04000000 )
+#define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
+
+int main() {
+
+	void *virtual_base;
+	int fd;
+	int loop_count;
+	int led_direction;
+	int led_mask;
+	void *h2p_lw_fifo_addr;
+	void *h2p_lw_reg_addr;
+
+	// map the address space for the LED registers into user space so we can interact with them.
+	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
+
+	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
+		printf( "ERROR: could not open \"/dev/mem\"...\n" );
+		return( 1 );
+	}
+
+	virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
+
+	if( virtual_base == MAP_FAILED ) {
+		printf( "ERROR: mmap() failed...\n" );
+		close( fd );
+		return( 1 );
+	}
+	
+	h2p_lw_fifo_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + FIFO_0_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_reg_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + MIMICK_STREAM_0_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+	
+
+	// toggle the LEDs a bit
+	
+	*(uint32_t *)h2p_lw_reg_addr =64; 
+	loop_count = 0;
+	while( loop_count < 60 ) {
+		
+		// control led
+
+		// wait 100ms
+		usleep( 100*1000 );
+		
+		// update led mask
+		if (led_direction == 0){
+			led_mask <<= 1;
+			if (led_mask == (0x01 << (PIO_LED_DATA_WIDTH-1)))
+				 led_direction = 1;
+		}else{
+			led_mask >>= 1;
+			if (led_mask == 0x01){ 
+				led_direction = 0;
+				loop_count++;
+			}
+		}
+		
+	} // while
+	
+
+	// clean up our memory mapping and exit
+	
+	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
+		printf( "ERROR: munmap() failed...\n" );
+		close( fd );
+		return( 1 );
+	}
+
+	close( fd );
+
+	return( 0 );
+}

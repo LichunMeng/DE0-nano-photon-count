@@ -1,0 +1,101 @@
+#include <stdlib.h>
+#include <inttypes.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include "hwlib.h"
+#include "socal/socal.h"
+#include "socal/hps.h"
+#include "socal/alt_gpio.h"
+#include "hps_0.h"
+
+#define AXI_BASE ( 0xc0000000)
+#define AXI_SPAN ( 0x1000)
+#define HW_REGS_BASE ( ALT_STM_OFST )
+#define HW_REGS_SPAN ( 0x04000000 )
+#define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
+
+int main(uint32_t argc,char *argv[]) {
+
+	void *virtual_base,*virtual_base_axi;;
+	int fd;
+	int loop_count;
+	int led_direction;
+	int led_mask;
+	void *h2p_lw_fifo_addr;
+	void *h2p_lw_counter_addr;
+	void *h2p_lw_FIFO_csr_addr;
+	void *h2p_lw_tri_sim_addr;
+	void *h2p_lw_tri_addr;
+	//uint32_t a,b,c,d,e,f,g,h,z;
+	uint32_t b,z,d,e,f;
+	uint64_t a,c;
+	
+	// map the address space for the LED registers into user space so we can interact with them.
+	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
+
+	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
+		printf( "ERROR: could not open \"/dev/mem\"...\n" );
+		return( 1 );
+	}
+
+	//virtual_base_axi = mmap( NULL, AXI_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, AXI_BASE );
+
+	//if( virtual_base_axi == MAP_FAILED ) {
+	//	printf( "ERROR: mmap() failed...\n" );
+	//	close( fd );
+	//	return( 1 );
+	//}
+	virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
+
+	if( virtual_base == MAP_FAILED ) {
+		printf( "ERROR: mmap() failed...\n" );
+		close( fd );
+		return( 1 );
+	}
+	
+	h2p_lw_counter_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + PULSE_COUNTER_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_fifo_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + FIFO_PLS_OUT_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+	//*((uint32_t *)h2p_lw_raw_addr) = 0xFFF; 
+	h2p_lw_FIFO_csr_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + FIFO_PLS_OUT_CSR_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+	
+	h2p_lw_tri_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + TRIGGER_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+	
+	h2p_lw_tri_sim_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + TRIGGER_SIM_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+	
+	*((uint32_t *)h2p_lw_counter_addr) = atoi(argv[1]); 
+	*((uint32_t *)h2p_lw_tri_sim_addr) = atoi(argv[2]); 
+	loop_count = 0;
+	while( loop_count < 1024*10 ) {
+		
+		b=(*((uint32_t *)h2p_lw_FIFO_csr_addr+1)&0x2) ; 
+		//z=*((uint32_t *)h2p_lw_FIFO_out_addr) ; 
+		//printf("a=0x%08x,b=0x%02x\r\n",z,b);
+		if (b==0){
+		//a=*((uint64_t *)h2p_lw_fifo_addr) ; 
+		d=*((uint32_t *)h2p_lw_fifo_addr) ; 
+		e=*((uint32_t *)(h2p_lw_fifo_addr+4)) ; 
+		//f=*((uint32_t *)(h2p_lw_fifo_addr+2)) ; 
+		//z=*((uint32_t *)h2p_lw_raw_addr) ; 
+		//
+		//printf("a=0x%016x,b=0x%08x,c=0x%08x\r\n",a,e,f);
+		//printf("%",PRIu64,"\n",a);
+		//printf("arg1=0x%08x,arg2=0x%08x\r\n",atoi(argv[1]),atoi(argv[2]));
+		printf("a=0x%08x,b=0x%08x\r\n",d,e);
+		//printf("a=0x%08x,b=0x%08x,c=0x%08x\r\n",d,e,f);
+		//printf("a=0x%08x,b=0x%08x,c=0x%08x,d=0x%08x,e=0x%08x,f=0x%08x,g=0x%08x,h=0x%08x\r\n",a,b,c,d,e,f,g,h);
+		// wait 100ms
+		loop_count=loop_count+1;
+		}
+	}	
+	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
+		printf( "n" );
+		close( fd );
+		return( 1 );
+	}
+
+	close( fd );
+
+	return( 0 );
+}
