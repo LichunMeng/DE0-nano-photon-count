@@ -22,6 +22,7 @@
 
 #define AXI_BASE ( 0xc0000000)
 #define AXI_SPAN ( 0x04000000)
+//#define F_CLOCK( 50) //clock frequency MHZ
 #define HW_REGS_BASE ( ALT_STM_OFST )
 #define HW_REGS_SPAN ( 0x04000000 )
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
@@ -73,7 +74,7 @@ int setting(uint32_t Intg,uint32_t Tri_intg, uint32_t sim_intg,unsigned long *h2
 
 int hps_data_get(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_FIFO_csr_addr,uint64_t data[]) {
 
-	int i,t,count;
+	int i;
 	uint32_t status;
 	for (i=0;i<MAX;i++){
 		status=(*((uint32_t *)(*h2p_lw_FIFO_csr_addr+4)))&0x3F;
@@ -87,25 +88,34 @@ int hps_data_get(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_FIFO_csr_addr
 	}
 	return( 0 );
 }
+bool send_all(int socket, void *buffer, size_t length)
+{
+    char *ptr = (char*) buffer;
+    while (length > 0)
+    {
+        int i = send(socket, ptr, length,0);
+        if (i < 1) return false;
+        ptr += i;
+        length -= i;
+	printf("send length: %d\r\n",i);
+    }
+    return true;
+}
 // Function designed for chat between client and server.
+
 
 int main()
 {
 	int fd;
-    	char buff[12];
-	unsigned long h2p_lw_fifo_addr,h2p_lw_counter_addr,h2p_lw_FIFO_csr_addr,h2p_lw_tri_sim_addr,h2p_lw_tri_addr;
+	unsigned long h2p_lw_counter_addr,h2p_lw_FIFO_csr_addr,h2p_lw_tri_sim_addr,h2p_lw_tri_addr;
 	unsigned int h2p_fifo_addr;
 	fd=hps_control(&h2p_fifo_addr,&h2p_lw_counter_addr,&h2p_lw_FIFO_csr_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
-	uint32_t Intg=5000;
-	uint32_t Tri_intg=10000000; 
-	uint32_t sim_intg=100;
 	uint64_t data[MAX];
     	//uint32_t n=0,i=0,count=0,t=0;
     	int sockfd, connfd, len;
     	struct sockaddr_in servaddr, cli;
   
     	// socket create and verification
-	printf("test1");
     	sockfd = socket(AF_INET, SOCK_STREAM, 0);
     	if (sockfd == -1) {
     	    printf("socket creation failed...\n");
@@ -114,6 +124,7 @@ int main()
     	else
     	    printf("Socket successfully created..\n");
     	bzero(&servaddr, sizeof(servaddr));
+	int timeout=500000;
 	//setsockopt( sockfd, SOL_SOCKET,SO_RCVTIMEO,(void *)&timeout, sizeof(timeout));
 	//setsockopt( sockfd, 6 ,18,(void *)&timeout, sizeof(timeout));
   
@@ -123,7 +134,7 @@ int main()
     	servaddr.sin_port = htons(PORT);
   
     	// Binding newly created socket to given IP and verification
-    	if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+    	if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr)))!= 0) {
     	    printf("socket bind failed...\n");
     	    exit(0);
     	}
@@ -138,27 +149,15 @@ int main()
     	else
     	    printf("Server listening..\n");
     	len = sizeof(cli);
-  
     	// Accept the data packet from client and verification
-	while ((connfd = accept(sockfd, (SA*)&cli, &len))>0){
-    		for (;;) {
-    		    bzero(buff, 12);
-    		    read(connfd, buff, sizeof(buff));
-
-		    Intg=buff[0]|buff[1]<<8|buff[2]<<16|buff[3]<<24;
-		    Tri_intg=buff[4]|buff[5]<<8|buff[6]<<16|buff[7]<<24;
-		    sim_intg=buff[8]|buff[9]<<8|buff[10]<<16|buff[11]<<24;
-		    if (Intg!=0){
-		    printf("Int=%d, Tri=%d,Pho=%d\r\n",Intg,Tri_intg,sim_intg);
-       		    setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
-		    }
-		    hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
-
-    		    send(connfd, data, sizeof(data),0);
-		    printf("size:%d\r\n",sizeof(data));
-    		    }
-    		close(connfd);
-		}
+	while (1){
+		hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
+		if((connfd = accept(sockfd, (SA*)&cli, &len))>0){
+    			send_all(connfd, data, sizeof(data));
+			printf("data send!\r\n");
+    			close(connfd);
+    			}
+	}
 	close(fd);
 	return (0);
 }

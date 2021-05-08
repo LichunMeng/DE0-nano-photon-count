@@ -1,5 +1,5 @@
 #
-TARGET = my_FIFO
+TARGET = Pls_FIFO
 
 #
 ALT_DEVICE_FAMILY       = soc_cv_av
