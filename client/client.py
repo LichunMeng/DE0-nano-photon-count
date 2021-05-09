@@ -52,7 +52,7 @@ def data_unfold(data_raw,N,res):
     
 si=2147483648;
 count=0
-for i in range(2):
+for i in range(10):
     fifo_control(Int,Int_tri,Int_tri_sim+i*5)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
@@ -79,6 +79,7 @@ for i in range(2):
                 y.append(data[2*i+1]-si)
                 line1.set_xdata(np.array(x)/50e3)
                 line1.set_ydata(np.array(y)+np.random.rand(1)[0]*Int/Int_tri_sim/10)
+                count=count+len(x)
                 ax.set_xlim((0,Int_tri/50e3))
                 ax.set_ylim(0,Int/Int_tri_sim*1.5)
                 figure.canvas.draw()
@@ -89,4 +90,5 @@ for i in range(2):
                 tmp=0
         data=[]
     s.close()
+print(count/N)
 

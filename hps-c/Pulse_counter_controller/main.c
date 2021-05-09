@@ -89,7 +89,22 @@ int hps_data_get(unsigned int *h2p_fifo_addr,unsigned long *h2p_lw_FIFO_csr_addr
 	return( 0 );
 }
 // Function designed for chat between client and server.
-
+//int setNonblocking(int fd)
+//{
+//	    int flags;
+//
+//	        /* If they have O_NONBLOCK, use the Posix way to do it */
+//#if defined(O_NONBLOCK)
+//	        /* Fixme: O_NONBLOCK is defined but broken on SunOS 4.1.x and AIX 3.2.5. */
+//	        if (-1 == (flags = fcntl(fd, F_GETFL, 0)))
+//			        flags = 0;
+//		    return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+//#else
+//		        /* Otherwise, use the old way of doing it */
+//		        flags = 1;
+//			    return ioctl(fd, FIOBIO, &flags);
+//#endif
+//} 
 int main()
 {
 	int fd;
@@ -100,13 +115,12 @@ int main()
 	uint32_t Intg=5000;
 	uint32_t Tri_intg=10000000; 
 	uint32_t sim_intg=10;
-	uint64_t data[MAX];
     	//uint32_t n=0,i=0,count=0,t=0;
     	int sockfd, connfd, len;
     	struct sockaddr_in servaddr, cli;
   
     	// socket create and verification
-    	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    	sockfd = socket(AF_INET, SOCK_STREAM|SOCK_NONBLOCK, 0);
     	if (sockfd == -1) {
     	    printf("Controller socket creation failed...\n");
     	    exit(0);
@@ -115,8 +129,8 @@ int main()
     	    printf("Controller socket successfully created..\n");
     	bzero(&servaddr, sizeof(servaddr));
 	int timeout=500000;
-	//setsockopt( sockfd, SOL_SOCKET,SO_RCVTIMEO,(void *)&timeout, sizeof(timeout));
-	//setsockopt( sockfd, 6 ,18,(void *)&timeout, sizeof(timeout));
+	setsockopt( sockfd, SOL_SOCKET,SO_RCVTIMEO,(void *)&timeout, sizeof(timeout));
+	setsockopt( sockfd, 6 ,18,(void *)&timeout, sizeof(timeout));
   
     	// assign IP, PORT
     	servaddr.sin_family = AF_INET;
@@ -142,7 +156,7 @@ int main()
        	setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
     	// Accept the data packet from client and verification
 	while (1){
-		if((connfd = accept(sockfd, (SA*)&cli, &len))>0){
+		if((connfd = accept4(sockfd, (SA*)&cli, &len,SOCK_NONBLOCK))>0){
     			bzero(buff, 12);
     			read(connfd, buff, sizeof(buff));
 			Intg=buff[0]|buff[1]<<8|buff[2]<<16|buff[3]<<24;
