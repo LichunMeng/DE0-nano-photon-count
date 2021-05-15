@@ -94,7 +94,11 @@ bool send_all(int socket, void *buffer, size_t length)
     while (length > 0)
     {
         int i = send(socket, ptr, length,0);
-        if (i < 1) return false;
+        if (i < 1) {
+		printf("%d\r\n",i);
+		printf("The last error message is: %s\n", strerror(i));
+		return false;
+	}
         ptr += i;
         length -= i;
 	printf("send length: %d\r\n",i);
@@ -107,6 +111,7 @@ bool send_all(int socket, void *buffer, size_t length)
 int main()
 {
 	int fd;
+	bool ss;
 	unsigned long h2p_lw_counter_addr,h2p_lw_FIFO_csr_addr,h2p_lw_tri_sim_addr,h2p_lw_tri_addr;
 	unsigned int h2p_fifo_addr;
 	fd=hps_control(&h2p_fifo_addr,&h2p_lw_counter_addr,&h2p_lw_FIFO_csr_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
@@ -151,13 +156,25 @@ int main()
     	len = sizeof(cli);
     	// Accept the data packet from client and verification
 	while (1){
-		hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
 		if((connfd = accept(sockfd, (SA*)&cli, &len))>0){
+			hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
     			send_all(connfd, data, sizeof(data));
 			printf("data send!\r\n");
-    			close(connfd);
     			}
+    		close(connfd);
 	}
 	close(fd);
+	//while (1){
+	//	connfd = accept(sockfd, (SA*)&cli, &len);
+	//	while(1){
+	//		hps_data_get(&h2p_fifo_addr,&h2p_lw_FIFO_csr_addr,data);
+    	//		while(!send_all(connfd, data, sizeof(data))){
+	//			connfd = accept(sockfd, (SA*)&cli, &len);
+	//		};
+	//		printf("data send!\r\n");
+    	//	}
+    	//	close(connfd);
+	//}
+	//close(fd);
 	return (0);
 }

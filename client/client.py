@@ -10,7 +10,7 @@ N=1024*8;
 
 fmt='I'*N*2
 fmt_tran='I'*3
-Int=5000;
+Int=5000*2;
 Int_tri=5000000;
 Int_tri_sim=50;
 
@@ -31,8 +31,11 @@ def fifo_control(Int,Int_tri,Int_tri_sim):
     #s.sendall(b'Hello, world')
         s.connect((HOST, PORT_ctr))
         tran_raw=struct.pack(fmt_tran,Int,Int_tri,Int_tri_sim)
+        print(tran_raw)
         try:
             s.sendall(tran_raw)
+            ss=s.recv(5)
+            print(ss==b'done')
         except:
             print("sending fail")
     s.close()
@@ -53,14 +56,18 @@ def data_unfold(data_raw,N,res):
 si=2147483648;
 count=0
 for i in range(10):
-    fifo_control(Int,Int_tri,Int_tri_sim+i*5)
+    #fifo_control(Int,Int_tri,Int_tri_sim+i*10)
+    fifo_control(Int,Int_tri,Int_tri_sim+i)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
     #tran_raw=struct.pack(fmt_tran,Int,Int_tri,Int_tri_sim+i*10)
     #s.sendall(tran_raw)
     #s.sendall(b'Hello, world')
         s.connect((HOST, PORT_fifo))
-        data_raw = s.recv(N*8,socket.MSG_WAITALL)
+        try:
+            data_raw = s.recv(N*8,socket.MSG_WAITALL)
+        except Exception as e:
+            print(e.message)
         N_tmp=int(len(data_raw)/4)
         data=struct.unpack('I'*N_tmp,data_raw)
         tmp=0

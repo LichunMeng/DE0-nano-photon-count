@@ -156,19 +156,21 @@ int main()
        	setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
     	// Accept the data packet from client and verification
 	while (1){
-		if((connfd = accept4(sockfd, (SA*)&cli, &len,SOCK_NONBLOCK))>0){
+		if((connfd = accept(sockfd, (SA*)&cli, &len))>0){
     			bzero(buff, 12);
     			read(connfd, buff, sizeof(buff));
 			Intg=buff[0]|buff[1]<<8|buff[2]<<16|buff[3]<<24;
 			Tri_intg=buff[4]|buff[5]<<8|buff[6]<<16|buff[7]<<24;
 			sim_intg=buff[8]|buff[9]<<8|buff[10]<<16|buff[11]<<24;
-
+			printf("test");
 			if (Intg!=0){
-       			setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
-			printf("T_Int=%dus, T_Tri=%dms, T_Pho=%dns\r\n",Intg/50,Tri_intg/50000,sim_intg*20);
+       				setting(Intg,Tri_intg, sim_intg,&h2p_lw_counter_addr,&h2p_lw_tri_sim_addr,&h2p_lw_tri_addr);
+				send(connfd,"done",4,0);
+				printf("T_Int=%dus, T_Tri=%dms, T_Pho=%dns\r\n",Intg/50,Tri_intg/50000,sim_intg*20);
+
 			}
     			close(connfd);
-    			}
+    		}
 	}
 	close(fd);
 	return (0);
